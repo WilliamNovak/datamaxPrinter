@@ -23,7 +23,9 @@ dpl_code += "PI\n"
 dpl_code += "R0003\n"
 dpl_code += "z\n"
 dpl_code += "W\n"
-dpl_code += "^012Y1100000170192LOGO_EMP\n"
+# dpl_code += "^012Y1100000170192LOGO_EMP\n"
+# dpl_code += "1W1D44000001000102\n" # qrCode
+# dpl_code += "1D000000015010001234567890\n" # barCode
 dpl_code += "221100200730177169.001\n"
 dpl_code += "221100200640167V: 1\n"
 dpl_code += "Q0001\n"
@@ -34,8 +36,6 @@ dpl_code_bytes = str(dpl_code).encode(encoding='cp437')
 
 printer = win32print.OpenPrinter(printer_name)
 job = win32print.StartDocPrinter(printer, 1, ("Label", None, "RAW"))
-win32print.StartPagePrinter(printer)
 win32print.WritePrinter(printer, dpl_code_bytes)
-win32print.EndPagePrinter(printer)
 win32print.EndDocPrinter(printer)
 win32print.ClosePrinter(printer)

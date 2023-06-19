@@ -10,8 +10,6 @@ pcxImage.save('LOGO_EMP.pcx','PCX')
 with open('LOGO_EMP.pcx', 'rb') as file:
     pcx_data = file.read()
 
-print(pcx_data.decode('latin-1'))
-
 # dpl_code  = "\x02IBPLOGO_EMP\n" + pcx_data.decode('latin-1') + "\n"
 # dpl_code += "\x02O0220\n"
 # dpl_code += "\x02M3000\n"
@@ -35,26 +33,29 @@ print(pcx_data.decode('latin-1'))
 # dpl_code += "Q0001\n"
 # dpl_code += "E"
 
-dpl_code  = "\x02O0220\n"
-dpl_code += "\x02f220\n"
-dpl_code += "\x02e\n"
-dpl_code += "\x02xBGPB0\n"
-dpl_code += "\x02IBPPB0\n"
-dpl_code += pcx_data.decode('latin-1') + "\x02L\n"
-dpl_code += "H10\n"
-dpl_code += "PC\n"
-dpl_code += "A2\n"
-dpl_code += "D11\n"
-dpl_code += "1Y1100001300140PB0\n"
-dpl_code += "^01\n"
-dpl_code += "Q0001\n"
+dpl_code  = "\x02O0220\x0D\n"
+dpl_code += "\x02f220\x0D\n"
+dpl_code += "\x02e\x0D\n"
+dpl_code += "\x02xBGPB0\x0D\n"
+dpl_code += "\x02IBPPB0\x0D"
+dpl_code += pcx_data.decode('latin-1') + "\x02L\x0D\n"
+dpl_code += "H10\x0D\n"
+dpl_code += "PC\x0D\n"
+dpl_code += "A2\x0D\n"
+dpl_code += "D11\x0D\n"
+dpl_code += "1Y1100001300140PB0\x0D\n"
+dpl_code += "^01\x0D\n"
+dpl_code += "Q0001\x0D\n"
 dpl_code += "E"
 
 dpl_code_bytes = str(dpl_code).encode(encoding='latin-1')
-print(dpl_code)
+# print(dpl_code_bytes)
 
-printer = win32print.OpenPrinter(printer_name)
-job = win32print.StartDocPrinter(printer, 1, ("Label", None, "RAW"))
-win32print.WritePrinter(printer, dpl_code_bytes)
-win32print.EndDocPrinter(printer)
-win32print.ClosePrinter(printer)
+with open('arquivo.prn', 'wb') as file:
+    file.write(dpl_code_bytes)
+
+# printer = win32print.OpenPrinter(printer_name)
+# job = win32print.StartDocPrinter(printer, 1, ("Label", None, "RAW"))
+# win32print.WritePrinter(printer, dpl_code_bytes)
+# win32print.EndDocPrinter(printer)
+# win32print.ClosePrinter(printer)

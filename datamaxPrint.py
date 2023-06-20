@@ -3,11 +3,29 @@ from PIL import Image
 
 printer_name = win32print.GetDefaultPrinter()
 
-image = Image.open('LOGO_EMP.jpg','r')
-pcxImage = image.convert('1')
-pcxImage.save('LOGO_EMP.pcx','PCX')
+image = Image.open('LOGO_EMP.jpg')
+image.save('LOGO_EMP200.jpg',dpi=(200,200))
 
-with open('LOGO_EMP.pcx', 'rb') as file:
+img = Image.open('LOGO_EMP200.jpg')
+pcxImage = img.convert('1')
+
+# Defina o tamanho da escala em polegadas
+escala_polegadas = 0.01
+
+# Converta a escala de polegadas para pixels
+dpi = 200  # Define a resolução em pontos por polegada (dpi)
+escala_pixels = escala_polegadas * dpi
+
+# Calcule o novo tamanho da imagem
+largura_atual, altura_atual = pcxImage.size
+nova_largura = int(largura_atual * escala_pixels)
+nova_altura = int(altura_atual * escala_pixels)
+
+# Redimensione a imagem
+pcxImage = pcxImage.resize((nova_largura, nova_altura))
+pcxImage.save('LOGO_EMP200.pcx','PCX')
+
+with open('LOGO_EMP200.pcx', 'rb') as file:
     pcx_data = file.read()
 
 # dpl_code  = "\x02IBPLOGO_EMP\n" + pcx_data.decode('latin-1') + "\n"
